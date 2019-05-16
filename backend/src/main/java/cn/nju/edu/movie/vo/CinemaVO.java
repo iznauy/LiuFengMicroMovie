@@ -26,6 +26,23 @@ public class CinemaVO {
 
         private String url;
 
+        public CinemaDetailVO(String position, String price, String url) {
+            this.position = position;
+            this.price = price;
+            this.url = url;
+        }
+
+        public String getPosition() {
+            return position;
+        }
+
+        public String getPrice() {
+            return price;
+        }
+
+        public String getUrl() {
+            return url;
+        }
     }
 
 }

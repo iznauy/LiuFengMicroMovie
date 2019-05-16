@@ -16,7 +16,7 @@ import java.util.Map;
 @Data
 public class FilmVO {
 
-    private int id;
+    private long id;
 
     private String name;
 
@@ -34,11 +34,7 @@ public class FilmVO {
 
     private List<String> director;
 
-    private List<CinemaVO> cinemaVOs;
-
     private String description;
-
-    private List<Comment> comments;
 
     private Map<Source, FilmDetailVO> filmDetailVOMap;
 
@@ -50,6 +46,23 @@ public class FilmVO {
 
         private String ticketOffice;
 
+        public FilmDetailVO(Double score, Integer scoreCount, String ticketOffice) {
+            this.score = score;
+            this.scoreCount = scoreCount;
+            this.ticketOffice = ticketOffice;
+        }
+
+        public Double getScore() {
+            return score;
+        }
+
+        public Integer getScoreCount() {
+            return scoreCount;
+        }
+
+        public String getTicketOffice() {
+            return ticketOffice;
+        }
     }
 
 }

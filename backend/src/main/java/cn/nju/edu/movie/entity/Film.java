@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 public class Film {
 
-    private int id;
+    private long id;
 
     private String name;
 
@@ -39,9 +39,5 @@ public class Film {
     private String description;
 
     private List<String> director;
-
-    private List<Comment> comments;
-
-    private List<Cinema> cinemas;
 
 }

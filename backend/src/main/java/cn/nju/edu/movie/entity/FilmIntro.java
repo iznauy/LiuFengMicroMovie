@@ -1,19 +1,14 @@
-package cn.nju.edu.movie.vo;
-
-import cn.nju.edu.movie.common.Source;
-import lombok.Data;
+package cn.nju.edu.movie.entity;
 
 import java.util.List;
-import java.util.Map;
 
 /**
- * Created on 13/05/2019.
+ * Created on 16/05/2019.
  * Description:
  *
  * @author iznauy
  */
-@Data
-public class FilmIntroVO {
+public class FilmIntro {
 
     private long id;
 
@@ -25,6 +20,7 @@ public class FilmIntroVO {
 
     private String length;
 
-    private Map<Source, Double> scores;
+    private Double score;
+
 
 }
