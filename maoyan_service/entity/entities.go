@@ -26,6 +26,7 @@ func (f * Film) GetIntro() * FilmIntro {
 		Categories: f.Categories,
 		PicUrl: f.PicUrl,
 		Len: f.Len,
+		Score: f.Score,
 	}
 }
 
@@ -35,6 +36,7 @@ type FilmIntro struct {
 	Categories string
 	PicUrl string
 	Len	string
+	Score string
 }
 
 
