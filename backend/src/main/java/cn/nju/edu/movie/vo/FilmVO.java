@@ -22,7 +22,7 @@ public class FilmVO {
 
     private String EnName;
 
-    private List<String> category;
+    private List<String> categories;
 
     private String length;
 
@@ -32,7 +32,7 @@ public class FilmVO {
 
     private String picUrl;
 
-    private List<String> director;
+    private List<String> directors;
 
     private String description;
 
@@ -42,11 +42,11 @@ public class FilmVO {
 
         private Double score;
 
-        private Integer scoreCount;
+        private String scoreCount;
 
         private String ticketOffice;
 
-        public FilmDetailVO(Double score, Integer scoreCount, String ticketOffice) {
+        public FilmDetailVO(Double score, String scoreCount, String ticketOffice) {
             this.score = score;
             this.scoreCount = scoreCount;
             this.ticketOffice = ticketOffice;
@@ -56,7 +56,7 @@ public class FilmVO {
             return score;
         }
 
-        public Integer getScoreCount() {
+        public String getScoreCount() {
             return scoreCount;
         }
 

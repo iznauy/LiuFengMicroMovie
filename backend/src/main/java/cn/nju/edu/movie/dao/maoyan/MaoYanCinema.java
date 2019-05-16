@@ -21,7 +21,7 @@ class MaoYanCinema {
 
     String Url;
 
-    public Cinema toCinema() {
+    Cinema toCinema() {
         Cinema cinema = new Cinema();
         cinema.setName(Name);
         cinema.setPosition(Position);

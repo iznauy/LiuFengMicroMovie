@@ -21,7 +21,7 @@ class MaoYanComment {
 
     Double Score;
 
-    public Comment toComment() {
+    Comment toComment() {
         Comment comment = new Comment();
         comment.setSource(Source.MAO_YAN);
         comment.setContent(Content);

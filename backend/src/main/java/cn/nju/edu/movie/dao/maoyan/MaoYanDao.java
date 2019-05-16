@@ -55,7 +55,7 @@ public class MaoYanDao implements FilmDao {
 
     @Override
     public List<Comment> getCommentsByFilmId(long id) {
-        MaoYanComment[] comments = gson.fromJson(get(COMMENT + "1"), MaoYanComment[].class);
+        MaoYanComment[] comments = gson.fromJson(get(COMMENT + id), MaoYanComment[].class);
         List<Comment> commentList = new ArrayList<>(comments.length);
         for (MaoYanComment comment: comments)
             commentList.add(comment.toComment());
@@ -73,20 +73,25 @@ public class MaoYanDao implements FilmDao {
 
     @Override
     public Film getFilmById(long id) {
-        return null;
+        MaoYanFilm film = gson.fromJson(get(FILM + id), MaoYanFilm.class);
+        return film.toFilm();
     }
 
     @Override
     public List<FilmIntro> getAllFilm() {
-        return null;
+        MaoYanFilmIntro[] intros = gson.fromJson(get(FILM_LIST), MaoYanFilmIntro[].class);
+        List<FilmIntro> introList = new ArrayList<>(intros.length);
+        for (MaoYanFilmIntro intro: intros)
+            introList.add(intro.toFilmIntro());
+        return introList;
     }
 
-    public static void main(String[] args) {
-        MaoYanDao maoYanDao = new MaoYanDao();
-        MaoYanComment[] comments = gson.fromJson(maoYanDao.get(COMMENT + "1"), MaoYanComment[].class);
-        for (MaoYanComment comment: comments) {
-            System.out.println(comment);
-        }
-    }
+//    public static void main(String[] args) {
+//        MaoYanDao maoYanDao = new MaoYanDao();
+//        MaoYanFilmIntro[] intros = gson.fromJson(maoYanDao.get(FILM_LIST), MaoYanFilmIntro[].class);
+//        for (MaoYanFilmIntro intro: intros) {
+//            System.out.println(intro);
+//        }
+//    }
 
 }

@@ -1,5 +1,7 @@
 package cn.nju.edu.movie.entity;
 
+import lombok.Data;
+
 import java.util.List;
 
 /**
@@ -8,6 +10,7 @@ import java.util.List;
  *
  * @author iznauy
  */
+@Data
 public class FilmIntro {
 
     private long id;

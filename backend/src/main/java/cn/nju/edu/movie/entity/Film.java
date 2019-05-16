@@ -1,6 +1,5 @@
 package cn.nju.edu.movie.entity;
 
-import cn.nju.edu.movie.common.Comment;
 import lombok.Data;
 
 import java.util.List;
@@ -20,7 +19,7 @@ public class Film {
 
     private String EnName;
 
-    private List<String> category;
+    private List<String> categories;
 
     private String length;
 
@@ -28,7 +27,7 @@ public class Film {
 
     private Double score;
 
-    private Integer scoreCount;
+    private String scoreCount;
 
     private boolean hasReleased;
 
@@ -38,6 +37,6 @@ public class Film {
 
     private String description;
 
-    private List<String> director;
+    private List<String> directors;
 
 }
