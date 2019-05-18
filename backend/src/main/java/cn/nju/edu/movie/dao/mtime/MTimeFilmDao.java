@@ -63,7 +63,7 @@ public class MTimeFilmDao implements FilmDao {
             String content = curr.get("content").getAsString();
             String time = curr.get("time").getAsString();
             String username = curr.get("username").getAsString();
-            double score = curr.get("socre").getAsDouble();
+            double score = curr.get("score").getAsDouble();
 
             Comment co = new Comment();
             co.setContent(content);
@@ -133,7 +133,11 @@ public class MTimeFilmDao implements FilmDao {
             filmIntro.setLength(curr.get("length").getAsString());
             filmIntro.setName(curr.get("name").getAsString());
             filmIntro.setPicUrl(curr.get("img").getAsString());
-            filmIntro.setScore(curr.get("score").getAsDouble());
+            String scoreStr = curr.get("score").getAsString();
+            if (scoreStr.length() == 0)
+                filmIntro.setScore(0.0);
+            else
+                filmIntro.setScore(Double.parseDouble(scoreStr));
             result.add(filmIntro);
         }
         return result;
