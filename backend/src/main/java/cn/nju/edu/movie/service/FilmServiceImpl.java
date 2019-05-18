@@ -1,15 +1,20 @@
 package cn.nju.edu.movie.service;
 
 import cn.nju.edu.movie.common.Comment;
+import cn.nju.edu.movie.common.Source;
 import cn.nju.edu.movie.dao.FilmDao;
-import cn.nju.edu.movie.entity.FilmIntro;
+import cn.nju.edu.movie.entity.Cinema;
 import cn.nju.edu.movie.vo.CinemaVO;
 import cn.nju.edu.movie.vo.FilmIntroVO;
 import cn.nju.edu.movie.vo.FilmVO;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created on 17/05/2019.
@@ -38,11 +43,45 @@ public class FilmServiceImpl implements FilmService {
 
     @Override
     public List<CinemaVO> getCinemaList(long filmId) {
-        return null;
+        List<Cinema> records = maoyanDao.getAvailableCinemasByFilmId(filmId);
+        records.addAll(mTimeDao.getAvailableCinemasByFilmId(filmId));
+
+        return convertToVos(records);
     }
 
     @Override
     public List<Comment> getCommentList(long filmId) {
-        return null;
+        List<Comment> result = maoyanDao.getCommentsByFilmId(filmId);
+        result.addAll(mTimeDao.getCommentsByFilmId(filmId));
+        return result;
     }
+
+    private List<CinemaVO> convertToVos(List<Cinema> cinemas) {
+        Map<String, CinemaVO> record = new HashMap<>();
+        for (Cinema cinema : cinemas) {
+            String name = cinema.getName();
+
+
+            if (record.get(name) == null) {
+                CinemaVO vo = new CinemaVO();
+                vo.setName(name);
+                Map<Source, CinemaVO.CinemaDetailVO> detail = new HashMap<>();
+                detail.put(
+                        cinema.getSource(),
+                        new CinemaVO.CinemaDetailVO(cinema.getPosition(), cinema.getPrice(), cinema.getUrl())
+                );
+                vo.setDetails(detail);
+                record.put(name, vo);
+            } else {
+                CinemaVO vo = record.get(name);
+                vo.getDetails().put(
+                        cinema.getSource(),
+                        new CinemaVO.CinemaDetailVO(cinema.getPosition(), cinema.getPrice(), cinema.getUrl())
+                );
+            }
+        }
+
+        return new ArrayList<>(record.values());
+    }
+
 }
