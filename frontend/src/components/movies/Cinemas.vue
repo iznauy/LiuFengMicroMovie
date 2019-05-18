@@ -35,8 +35,7 @@
     },
     mounted() {
       this.$http({
-        url: `${this.baseUrl}/cinemas`, method: 'GET',
-        params: { id: this.movieId }
+        url: `${this.baseUrl}/cinema?id=${this.movieId}`, method: 'GET'
       }).then((response) => {
         this.cinemaList = response.data;
         this.setPage(1);
@@ -50,7 +49,6 @@
         this.currentPage = newPage;
         const start = (this.currentPage - 1) * 10;
         this.visibleCinemaList = this.cinemaList.slice(start, Math.min(start + 10, this.cinemaList.length));
-      }
     }
   };
 </script>

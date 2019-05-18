@@ -40,8 +40,7 @@
     },
     mounted() {
       this.$http({
-        url: `${this.baseUrl}/comments`, method: 'GET',
-        params: { id: this.movieId }
+        url: `${this.baseUrl}/comment?id=${this.movieId}`, method: 'GET'
       }).then((response) => {
         this.comments = response.data;
       });

@@ -6,8 +6,8 @@ import cn.nju.edu.movie.vo.CinemaVO;
 import cn.nju.edu.movie.vo.FilmIntroVO;
 import cn.nju.edu.movie.vo.FilmVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import java.util.List;
  *
  * @author iznauy
  */
-@Controller
+@RestController
 public class FilmController {
     
     private FilmService filmService;

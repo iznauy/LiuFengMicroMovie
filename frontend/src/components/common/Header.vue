@@ -10,8 +10,7 @@
       </a-menu>
     </div>
     <div style="display: inline-block; float: right;">
-      <a-input-search placeholder="input search text"
-              @search="onSearch" size="large" enterButton></a-input-search>
+      <a-input-search placeholder="input search text" size="large" enterButton></a-input-search>
     </div>
   </div>
 </template>
@@ -28,7 +27,7 @@
 
 <style scoped>
   .header-container {
-    padding: 0 300px;
+    padding: 0 250px;
     background-color: #F8F8F8;
     align-content: baseline;
   }
