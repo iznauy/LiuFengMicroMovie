@@ -226,7 +226,7 @@ class IDHelper(metaclass=Singleton):
         if movie_name in self.movie_id_dict:
             return self.movie_id_dict[movie_name]
 
-        assigned_id = int(requests.get('127.0.0.1:8888', {'name': movie_name}).text)
+        assigned_id = int(requests.get('http://127.0.0.1:8888', {'name': movie_name}).text)
         # assigned_id = self.count
         # self.count += 1
         self.movie_id_dict[movie_name] = assigned_id
