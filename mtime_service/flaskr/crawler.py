@@ -165,7 +165,7 @@ class Crawler:
         name = m['tCn']
         movie_id = m['movieId']
         global_id = self.id_helper.get_global_id(name, movie_id)
-        categories = m['movieType'].split('/')
+        categories = [x.strip() for x in m['movieType'].split('/')]
         img = m['img']
         score = str(m['r'])
         length = self._get_movie_detail(m['movieId'])['data']['basic']['mins']
@@ -176,7 +176,7 @@ class Crawler:
         name = movie['title']
         movie_id = movie['id']
         global_id = self.id_helper.get_global_id(name, movie_id)
-        categories = movie['type'].split('/')
+        categories = [x.strip() for x in movie['type'].split('/')]
         length = self._get_movie_detail(movie_id)['data']['basic']['mins']
         img = movie['image']
         return FilmIntro(global_id, name, categories, img, length, '')
@@ -226,8 +226,8 @@ class IDHelper(metaclass=Singleton):
         if movie_name in self.movie_id_dict:
             return self.movie_id_dict[movie_name]
 
-        # assigned_id = int(requests.get('127.0.0.1:8888', {'name': movie_name}).text)
-        assigned_id = self.count
-        self.count += 1
+        assigned_id = int(requests.get('127.0.0.1:8888', {'name': movie_name}).text)
+        # assigned_id = self.count
+        # self.count += 1
         self.movie_id_dict[movie_name] = assigned_id
         return assigned_id

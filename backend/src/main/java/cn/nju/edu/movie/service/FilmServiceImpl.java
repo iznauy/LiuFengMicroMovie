@@ -59,6 +59,9 @@ public class FilmServiceImpl implements FilmService {
         for (Cinema cinema : cinemas) {
             String name = cinema.getName();
 
+            if (name == null) {
+                continue;
+            }
 
             if (record.get(name) == null) {
                 CinemaVO vo = new CinemaVO();

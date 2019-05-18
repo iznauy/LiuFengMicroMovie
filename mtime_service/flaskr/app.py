@@ -26,19 +26,19 @@ def list_films():
 
 @app.route('/detail', methods=['GET'])
 def movie_detail():
-    movie_gid = request.args.get('id')
+    movie_gid = int(request.args.get('id'))
     return jsonify(dataclasses.asdict(dao.get_film(movie_gid)))
 
 
 @app.route('/comments', methods=['GET'])
 def movie_comments():
-    movie_gid = request.args.get('id')
+    movie_gid = int(request.args.get('id'))
     return jsonify([dataclasses.asdict(o) for o in dao.list_comments(movie_gid)])
 
 
 @app.route('/cinemas', methods=['GET'])
 def movie_cinemas():
-    movie_gid = request.args.get('id')
+    movie_gid = int(request.args.get('id'))
     return jsonify([dataclasses.asdict(o) for o in dao.list_cinema(movie_gid)])
 
 
