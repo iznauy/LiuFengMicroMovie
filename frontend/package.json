@@ -15,7 +15,9 @@
     "less-loader": "^5.0.0",
     "moment": "^2.24.0",
     "vue": "^2.6.10",
-    "vue-router": "^3.0.6"
+    "vue-router": "^3.0.6",
+    "vues": "^0.5.20",
+    "vuex": "^3.1.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.7.0",
@@ -37,8 +39,14 @@
     ],
     "rules": {
       "generator-star-spacing": "off",
-      "semi": ["error", "always"],
-      "quotes": ["error", "single"]
+      "semi": [
+        "error",
+        "always"
+      ],
+      "quotes": [
+        "error",
+        "single"
+      ]
     },
     "parserOptions": {
       "parser": "babel-eslint"
