@@ -18,7 +18,7 @@ public class CinemaVO {
 
     private Map<Source, CinemaDetailVO> details;
 
-    private static class CinemaDetailVO {
+    public static class CinemaDetailVO {
 
         private String position;
 
