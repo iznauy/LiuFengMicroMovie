@@ -10,10 +10,7 @@ import cn.nju.edu.movie.vo.FilmVO;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -53,7 +50,8 @@ public class FilmServiceImpl implements FilmService {
     public List<Comment> getCommentList(long filmId) {
         List<Comment> result = maoyanDao.getCommentsByFilmId(filmId);
         result.addAll(mTimeDao.getCommentsByFilmId(filmId));
-        return result;
+        return result.stream().sorted(Comparator.comparing(Comment::getTime).reversed())
+                .collect(Collectors.toList());
     }
 
     private List<CinemaVO> convertToVos(List<Cinema> cinemas) {
