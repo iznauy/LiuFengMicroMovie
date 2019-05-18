@@ -5,8 +5,8 @@
         <a-card class="movie-info" :bordered="false" hoverable @click="gotoMovieInfo">
           <img class="movie-poster" slot="cover" alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"/>
           <div class="text-style">
-            <h3>电影名称<br/></h3>
-            <span>电影分数</span>
+            <h3>{{movie.name}}<br/></h3>
+            <span>{{movie.score}}</span>
           </div>
         </a-card>
       </a-card-grid>
@@ -15,12 +15,35 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex';
+
   export default {
     name: 'Movies',
     data() {
       return {
         movieList: [1, 3, 4, 5, 4, 4, 4, 4, 3, 3, 43, 4, 4, 6, 4, 2, 2, 2, 2, 2, 2, 2, 3, 5, 7, 4, 3, ]
       };
+    },
+    computed: {
+      ...mapGetters(['baseUrl'])
+    },
+    mounted() {
+      this.$http({
+        url: `${this.baseUrl}/list`,
+        method: 'GET',
+      }).then((response) => {
+        this.movieList = response.data;
+        this.movieList.map((movie) => {
+          let meanScore = 0;
+          let sourceNum = 0;
+          for (let source in movie.scores) {
+            meanScore += movie.scores[source];
+            sourceNum += 1;
+          }
+          meanScore = meanScore / sourceNum;
+          movie['score'] = meanScore;
+        });
+      });
     },
     methods: {
       gotoMovieInfo() {
