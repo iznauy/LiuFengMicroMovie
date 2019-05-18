@@ -5,10 +5,12 @@ _crawler = Crawler()
 
 
 def load_film_intros():
-    result = _crawler.hot_movies()
-    result.extend(_crawler.coming_movies())
+    result = {x.global_id: x for x in _crawler.hot_movies()}
+    for m in _crawler.coming_movies():
+        if m.global_id not in result:
+            result[m.global_id] = m
 
-    return result
+    return list(result.values())
 
 
 def get_film(movie_gid):
