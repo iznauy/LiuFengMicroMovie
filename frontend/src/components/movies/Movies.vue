@@ -16,18 +16,18 @@
 
 <script>
   export default {
-    name: "Movies",
+    name: 'Movies',
     data() {
       return {
         movieList: [1, 3, 4, 5, 4, 4, 4, 4, 3, 3, 43, 4, 4, 6, 4, 2, 2, 2, 2, 2, 2, 2, 3, 5, 7, 4, 3, ]
-      }
+      };
     },
     methods: {
       gotoMovieInfo() {
         this.$router.push('/MovieInfo');
       }
     }
-  }
+  };
 </script>
 
 <style scoped>

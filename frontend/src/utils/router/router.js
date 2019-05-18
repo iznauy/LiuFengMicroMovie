@@ -1,6 +1,6 @@
 import Home from '@/components/common/Home';
-import Movies from '@/components/movies/Movies'
-import MovieInfo from '@/components/movies/MovieInfo'
+import Movies from '@/components/movies/Movies';
+import MovieInfo from '@/components/movies/MovieInfo';
 
 import Vue from 'vue';
 import VueRouter from 'vue-router';

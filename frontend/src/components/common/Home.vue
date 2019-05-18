@@ -10,7 +10,7 @@
 </template>
 
 <script>
-  import Header from './Header'
+  import Header from './Header';
 
   export default {
     name: 'Home',
@@ -20,7 +20,7 @@
     mounted () {
       this.$router.push('/Movies');
     }
-  }
+  };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
