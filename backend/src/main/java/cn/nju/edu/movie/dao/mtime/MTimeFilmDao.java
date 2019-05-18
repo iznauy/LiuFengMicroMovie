@@ -98,7 +98,25 @@ public class MTimeFilmDao implements FilmDao {
 
     @Override
     public Film getFilmById(long id) {
-        return gson.fromJson(get(FILM + id), MTimeFilm.class).toFilm();
+        JsonObject json = parser.parse(get(FILM + id)).getAsJsonObject();
+        Film film = new Film();
+        film.setDescription(json.get("description").getAsString());
+        film.setEnName(json.get("en_name").getAsString());
+        film.setId(id);
+        film.setScoreCount(json.get("score_count").getAsInt() + "");
+        film.setLength(json.get("length").getAsString());
+        film.setName(json.get("name").getAsString());
+        film.setScore(json.get("score").getAsDouble());
+        film.setPicUrl(json.get("img").getAsString());
+        film.setHasReleased(json.get("has_scored").getAsBoolean());
+        film.setTicketOffice(json.get("ticket_office").getAsString());
+        film.setReleaseTime(json.get("release_date").getAsString());
+
+        film.setCategories(parseJsonStringArray(json.get("categories").getAsJsonArray()));
+        List<String> directors = new ArrayList<>();
+        directors.add(json.get("directors").getAsString());
+        film.setDirectors(directors);
+        return film;
     }
 
     @Override

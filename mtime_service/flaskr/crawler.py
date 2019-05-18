@@ -150,6 +150,8 @@ class Crawler:
         length = basic_info['mins']
         release_date = basic_info['releaseDate']
         rating = basic_info['overallRating']
+        if not rating or rating <= 0:
+            rating = 0
         person_count = basic_info['personCount']
         has_scored = bool(rating)
         img = basic_info['img']
