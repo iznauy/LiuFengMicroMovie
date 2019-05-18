@@ -34,6 +34,7 @@ class Crawler:
         result = []
         for m in movies:
             result.append(self._create_hot_film_intro(m))
+        self._hot_movies = result
         return result
 
     def coming_movies(self):
@@ -43,7 +44,9 @@ class Crawler:
         api = f'https://api-m.mtime.cn/Movie/MovieComingNew.api?locationId={self.location_id}'
         movies = get(api)['moviecomings']
 
-        return [self._create_coming_film_intro(m) for m in movies]
+        result = [self._create_coming_film_intro(m) for m in movies]
+        self._coming_movies = result
+        return result
 
     def movie_detail(self, global_id):
         movie_id = self.id_helper.global_to_local(global_id)
@@ -167,7 +170,7 @@ class Crawler:
         global_id = self.id_helper.get_global_id(name, movie_id)
         categories = [x.strip() for x in m['movieType'].split('/')]
         img = m['img']
-        score = str(m['r'])
+        score = str(m['r']) if m['r'] and m['r'] > 0 else '0'
         length = self._get_movie_detail(m['movieId'])['data']['basic']['mins']
         intro = FilmIntro(global_id, name, categories, img, length, score)
         return intro
@@ -179,7 +182,7 @@ class Crawler:
         categories = [x.strip() for x in movie['type'].split('/')]
         length = self._get_movie_detail(movie_id)['data']['basic']['mins']
         img = movie['image']
-        return FilmIntro(global_id, name, categories, img, length, '')
+        return FilmIntro(global_id, name, categories, img, length, '0')
 
     def _get_movie_detail(self, movie_id):
         detail_url = f'https://ticket-api-m.mtime.cn/movie/detail.api'
