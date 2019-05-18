@@ -1,23 +1,23 @@
 <template>
   <div>
     <div class="movie-header">
-      <img src="https://p0.meituan.net/movie/f29c0f9ff0340d00085f4bc1a395ecf02603950.jpg" alt="" class="poster container">
+      <img :src="movieInfo.picUrl" alt="" class="poster container">
       <div class="movie-detail container">
-        <div style="font-size: 28px;">电影中文名</div>
-        <div style="font-size: 20px;">English Name</div>
-        <div style="margin-top: 32px;">电影时长：108分钟</div>
-        <div>电影分类：冒险、奇幻</div>
-        <div>电影导演：詹姆斯·卡梅隆</div>
-        <div>上映时间：2019-05-17（未上映）</div>
+        <div style="font-size: 28px;">{{movieInfo.name}}</div>
+        <div style="font-size: 20px;">{{movieInfo.EnName}}</div>
+        <div style="margin-top: 32px;">电影时长：{{movieInfo.length}}</div>
+        <div>电影分类：{{movieInfo.categories.join(", ")}}</div>
+        <div>电影导演：{{movieInfo.directors.join(", ")}}</div>
+        <div>上映时间：{{movieInfo.releaseTime}}</div>
         <a-button type="primary" size="large" class="purchase-button" @click="changeInfo">{{buttonText}}</a-button>
       </div>
       <div class="movie-score container">
         <div class="score-list">
-          <div v-for="index in [1, 3, 4]" :key="index" class="rate-info">
-            <div style="display: inline-block; font-size: 28px; color: rgb(249, 213, 20); ">9.3</div>
+          <div v-for="source in movieInfo.filmDetailVOMap" :key="source" class="rate-info">
+            <div style="display: inline-block; font-size: 28px; color: rgb(249, 213, 20); ">{{source.score}}</div>
             <div style="display: inline-block; margin-left: 20px;">
-              <div>猫眼评分</div>
-              <a-rate :defaultValue="4.5" allowHalf disabled/>
+              <div>{{source.ticketOffice}}</div>
+              <a-rate :defaultValue="Math.floor(source.score) / 2" allowHalf disabled/>
             </div>
           </div>
         </div>
@@ -33,15 +33,29 @@
 <script>
   import Cinemas from '@/components/movies/Cinemas';
   import Comments from '@/components/movies/Comments';
+  import { mapGetters } from 'vuex';
 
   export default {
     name: 'MovieInfo',
     components: {Comments, Cinemas},
+    props: { movieId: Number },
     data() {
       return {
         showCinemas: false,
-        buttonText: '购买电影票'
+        buttonText: '购买电影票',
+        movieInfo: Object
       };
+    },
+    computed: {
+      ...mapGetters(['baseUrl'])
+    },
+    mounted() {
+      this.$http({
+        url: `${this.baseUrl}/filmInfo`, method: 'GET',
+        params: { id: this.movieId }
+      }).then((response) => {
+        this.movieInfo = response.data;
+      });
     },
     methods: {
       changeInfo() {

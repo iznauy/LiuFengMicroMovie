@@ -19,7 +19,7 @@ const routes = [
         name: 'Movies'
       },
       {
-        path: '/MovieInfo',
+        path: '/MovieInfo:movieId?',
         component: MovieInfo,
         name: 'MovieInfo'
       }
