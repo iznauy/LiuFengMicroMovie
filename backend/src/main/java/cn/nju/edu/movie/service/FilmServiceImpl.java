@@ -1,11 +1,14 @@
 package cn.nju.edu.movie.service;
 
 import cn.nju.edu.movie.common.Comment;
+import cn.nju.edu.movie.dao.FilmDao;
+import cn.nju.edu.movie.entity.FilmIntro;
 import cn.nju.edu.movie.vo.CinemaVO;
 import cn.nju.edu.movie.vo.FilmIntroVO;
 import cn.nju.edu.movie.vo.FilmVO;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -16,6 +19,12 @@ import java.util.List;
  */
 @Service
 public class FilmServiceImpl implements FilmService {
+
+    @Resource(name = "mTime")
+    private FilmDao mTimeDao;
+
+    @Resource(name = "maoYan")
+    private FilmDao maoyanDao;
 
     @Override
     public List<FilmIntroVO> getFilmList() {

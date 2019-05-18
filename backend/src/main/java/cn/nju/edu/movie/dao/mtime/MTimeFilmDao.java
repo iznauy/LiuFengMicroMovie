@@ -13,6 +13,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ import java.util.List;
  * Date: 2019-05-18
  * Description:
  */
+@Component("mTime")
 public class MTimeFilmDao implements FilmDao {
 
     private static final String HOST = "http://localhost:5000";

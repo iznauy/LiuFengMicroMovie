@@ -24,7 +24,7 @@ import java.util.List;
  *
  * @author iznauy
  */
-@Component
+@Component("maoYan")
 public class MaoYanDao implements FilmDao {
 
     private static final String HOST = "http://localhost:8000";
