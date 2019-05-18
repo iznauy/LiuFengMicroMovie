@@ -38,7 +38,7 @@ public class FilmVO {
 
     private Map<Source, FilmDetailVO> filmDetailVOMap;
 
-    private static class FilmDetailVO {
+    public static class FilmDetailVO {
 
         private Double score;
 
