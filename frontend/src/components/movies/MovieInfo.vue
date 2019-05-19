@@ -13,10 +13,10 @@
       </div>
       <div class="movie-score container">
         <div class="score-list">
-          <div v-for="(source, key) in movieInfo.filmDetailVOMap" :key="source" class="rate-info">
+          <div v-for="(source, key) in movieInfo.filmDetailVOMap" :key="key" class="rate-info">
             <div style="display: inline-block; font-size: 28px; color: rgb(249, 213, 20); ">{{source.score}}</div>
             <div style="display: inline-block; margin-left: 20px;">
-              <div>{{key}}</div>
+              <div>{{translate(key)}}</div>
               <a-rate :defaultValue="Math.floor(source.score) / 2" allowHalf disabled/>
             </div>
           </div>
@@ -34,6 +34,7 @@
   import Cinemas from '@/components/movies/Cinemas';
   import Comments from '@/components/movies/Comments';
   import { mapGetters } from 'vuex';
+  import Language from '@/utils/Language';
 
   export default {
     name: 'MovieInfo',
@@ -61,6 +62,9 @@
       changeInfo() {
         this.showCinemas = !this.showCinemas;
         this.buttonText = this.showCinemas ? '电影评论' : '购买电影票';
+      },
+      translate(key) {
+        return Language.translate(key);
       }
     }
   };
@@ -110,7 +114,7 @@
     margin-top: 16px;
     display: flex;
     justify-content: flex-end;
-    align-items: end;
+    align-items: flex-end;
   }
   .movie-info {
     padding: 60px 360px;

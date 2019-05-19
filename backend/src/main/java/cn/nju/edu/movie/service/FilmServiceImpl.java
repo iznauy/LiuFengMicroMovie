@@ -154,17 +154,27 @@ public class FilmServiceImpl implements FilmService {
                 CinemaVO vo = new CinemaVO();
                 vo.setName(name);
                 Map<Source, CinemaVO.CinemaDetailVO> detail = new HashMap<>();
+                String price = cinema.getPrice();
+                if (cinema.getSource() == Source.MAO_YAN)
+                    price = "未知";
+                else
+                    price += "元起";
                 detail.put(
                         cinema.getSource(),
-                        new CinemaVO.CinemaDetailVO(cinema.getPosition(), cinema.getPrice(), cinema.getUrl())
+                        new CinemaVO.CinemaDetailVO(cinema.getPosition(), price, cinema.getUrl())
                 );
                 vo.setDetails(detail);
                 record.put(name, vo);
             } else {
                 CinemaVO vo = record.get(name);
+                String price = cinema.getPrice();
+                if (cinema.getSource() == Source.MAO_YAN)
+                    price = "未知";
+                else
+                    price += "元起";
                 vo.getDetails().put(
                         cinema.getSource(),
-                        new CinemaVO.CinemaDetailVO(cinema.getPosition(), cinema.getPrice(), cinema.getUrl())
+                        new CinemaVO.CinemaDetailVO(cinema.getPosition(), price, cinema.getUrl())
                 );
             }
         }

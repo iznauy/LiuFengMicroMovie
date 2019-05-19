@@ -7,14 +7,14 @@
       <a-tab-pane tab="电影评价" key="1">
         <a-list itemLayout="horizontal" :dataSource="comments">
           <a-list-item slot="renderItem" slot-scope="item">
-            <a-comment :author="item.userName" :avatar="item.avatar">
+            <a-comment :author="item.userName" avatar="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png">
               <p slot="content">{{item.content}}</p>
               <template slot="actions">
-                <span>来自{{item.source}}</span>
+                <span>来自{{translate(item.source)}}</span>
                 <span>{{item.score}}分</span>
               </template>
-              <a-tooltip slot="datetime" :title="item.time.format('YYYY-MM-DD HH:mm:ss')">
-                <span>{{item.time.fromNow()}}</span>
+              <a-tooltip slot="datetime" :title="item.time">
+                <span>{{item.time}}</span>
               </a-tooltip>
             </a-comment>
           </a-list-item>
@@ -26,10 +26,11 @@
 
 <script>
   import { mapGetters } from 'vuex';
+  import Language from '@/utils/Language';
 
   export default {
     name: 'Comments',
-    props: { movieId: Number, description: String},
+    props: { movieId: String, description: String},
     computed: {
       ...mapGetters(['baseUrl'])
     },
@@ -45,6 +46,11 @@
         this.comments = response.data;
       });
     },
+    methods: {
+      translate(key) {
+        return Language.translate(key);
+      }
+    }
   };
 </script>
 
