@@ -13,10 +13,10 @@
       </div>
       <div class="movie-score container">
         <div class="score-list">
-          <div v-for="source in movieInfo.filmDetailVOMap" :key="source" class="rate-info">
+          <div v-for="(source, key) in movieInfo.filmDetailVOMap" :key="key" class="rate-info">
             <div style="display: inline-block; font-size: 28px; color: rgb(249, 213, 20); ">{{source.score}}</div>
             <div style="display: inline-block; margin-left: 20px;">
-              <div>{{source.ticketOffice}}</div>
+              <div>{{translate(key)}}</div>
               <a-rate :defaultValue="Math.floor(source.score) / 2" allowHalf disabled/>
             </div>
           </div>
@@ -24,8 +24,8 @@
       </div>
     </div>
     <div class="movie-info">
-      <Cinemas v-if="showCinemas"></Cinemas>
-      <Comments v-else></Comments>
+      <Cinemas v-if="showCinemas" :movieId="movieId"></Cinemas>
+      <Comments v-else :movieId="movieId" :description="movieInfo.description"></Comments>
     </div>
   </div>
 </template>
@@ -34,25 +34,26 @@
   import Cinemas from '@/components/movies/Cinemas';
   import Comments from '@/components/movies/Comments';
   import { mapGetters } from 'vuex';
+  import Language from '@/utils/Language';
 
   export default {
     name: 'MovieInfo',
     components: {Comments, Cinemas},
-    props: { movieId: Number },
     data() {
       return {
         showCinemas: false,
         buttonText: '购买电影票',
-        movieInfo: Object
+        movieInfo: Object,
+        movieId: undefined
       };
     },
     computed: {
       ...mapGetters(['baseUrl'])
     },
     mounted() {
+      this.movieId = this.$route.params.movieId;
       this.$http({
-        url: `${this.baseUrl}/filmInfo`, method: 'GET',
-        params: { id: this.movieId }
+        url: `${this.baseUrl}/info?id=${this.movieId}`, method: 'GET'
       }).then((response) => {
         this.movieInfo = response.data;
       });
@@ -61,6 +62,9 @@
       changeInfo() {
         this.showCinemas = !this.showCinemas;
         this.buttonText = this.showCinemas ? '电影评论' : '购买电影票';
+      },
+      translate(key) {
+        return Language.translate(key);
       }
     }
   };
@@ -71,7 +75,7 @@
     display: flex;
     width: 100%;
     height: 400px;
-    padding: 0 360px;
+    padding: 0 250px;
     background: linear-gradient(to right, rgba(61, 40, 68, 1), rgba(68, 45, 66, 0.9), rgba(83, 51, 64, 0.8), rgba(50, 35, 70, 0.9), rgba(48, 34, 70, 0.95), rgba(43, 33, 71, 1));
   }
   .movie-header .container {
@@ -109,8 +113,8 @@
   .rate-info {
     margin-top: 16px;
     display: flex;
-    justify-content:center;
-    align-items: center;
+    justify-content: flex-end;
+    align-items: flex-end;
   }
   .movie-info {
     padding: 60px 360px;

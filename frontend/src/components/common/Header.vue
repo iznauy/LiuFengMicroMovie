@@ -5,13 +5,12 @@
       <span class="title">流锋微电影</span>
     </div>
     <div style="display: inline-block; margin: 0 auto 0 20px;">
-      <a-menu mode="horizontal" class="menu" @click="handleClick" defaultSelectedKeys="['/Movies']">
+      <a-menu mode="horizontal" class="menu" @click="handleClick" :defaultSelectedKeys="['/Movies']">
         <a-menu-item key="/Movies">电影列表</a-menu-item>
       </a-menu>
     </div>
     <div style="display: inline-block; float: right;">
-      <a-input-search placeholder="input search text"
-              @search="onSearch" size="large" enterButton></a-input-search>
+      <a-input-search placeholder="input search text" size="large" enterButton></a-input-search>
     </div>
   </div>
 </template>
@@ -28,7 +27,7 @@
 
 <style scoped>
   .header-container {
-    padding: 0 300px;
+    padding: 0 250px;
     background-color: #F8F8F8;
     align-content: baseline;
   }

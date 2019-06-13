@@ -2,8 +2,8 @@
   <div class="content-container">
     <a-card :bordered="false">
       <a-card-grid v-for="(movie, index) in movieList" :key="index" class="movie-card-grid">
-        <a-card class="movie-info" :bordered="false" hoverable @click="gotoMovieInfo">
-          <img class="movie-poster" slot="cover" alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"/>
+        <a-card class="movie-info" :bordered="false" hoverable @click="gotoMovieInfo(movie.id)">
+          <img class="movie-poster" slot="cover" alt="example" :src="movie.picUrl"/>
           <div class="text-style">
             <h3>{{movie.name}}<br/></h3>
             <span>{{movie.score}}</span>
@@ -21,7 +21,7 @@
     name: 'Movies',
     data() {
       return {
-        movieList: [1, 3, 4, 5, 4, 4, 4, 4, 3, 3, 43, 4, 4, 6, 4, 2, 2, 2, 2, 2, 2, 2, 3, 5, 7, 4, 3, ]
+        movieList: []
       };
     },
     computed: {
@@ -46,8 +46,8 @@
       });
     },
     methods: {
-      gotoMovieInfo() {
-        this.$router.push('/MovieInfo');
+      gotoMovieInfo(movieId) {
+        this.$router.push(`/MovieInfo/${movieId}`);
       }
     }
   };
@@ -60,12 +60,13 @@
   }
   .movie-card-grid {
     width: 20%;
-    min-width: 200px;
-    padding: 20px;
+    min-width: 160px;
+    padding: auto;
     box-shadow: none!important;
   }
   .movie-info {
     width: 160px;
+    height: 270px;
   }
   .movie-poster {
     width: 160px;
