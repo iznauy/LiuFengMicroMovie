@@ -1,12 +1,11 @@
 import datetime as da
-import pandas as pd
-import jieba
 import os
 
+import jieba
 import requests
-
 from matplotlib import pyplot as plt
-from wordcloud import WordCloud, ImageColorGenerator
+from wordcloud import WordCloud
+
 from flaskr.config import LOCATION_ID
 from flaskr.data_model import FilmIntro, Film, Comment, CinemaInfo
 
@@ -50,9 +49,7 @@ class WordCloudProcessor:
         self.comments_dir = comments_dir if comments_dir is not None else DEFAULT_COMMENT_RECORD_DIR
         self.output_dir = output_dir if output_dir is not None else DEFAULT_OUTPUT_DIR
         self.wc = WordCloud(font_path=f'{RESOURCE_DIR}/font/SourceHanSerifK-Light.otf', background_color='white',
-                            max_words=2000,
-                            max_font_size=100, random_state=42, width=1000, height=860, margin=2)
-        self.existed_img = set()
+                            max_words=2000, max_font_size=100, random_state=42, width=1000, height=860, margin=2)
         # Initialize comments file if no comment records are provided
         self._initialize()
 
@@ -96,17 +93,23 @@ class WordCloudProcessor:
                 if file.endswith('.txt'):
                     existed_comments.add(int(file[:-4]))
 
-        comment_crawler = CommentCrawler()
-
         for gid, mid in self.id_helper.id_dict.items():
             if mid not in existed_comments:
                 # Crawl all available comments of this movie and then write to a file named by its mtime movie id
-                comments = ' '.join(comment_crawler.all_comments(gid))
+                comments = ' '.join(self._crawl_comments(gid))
                 with open(f'{RESOURCE_DIR}/comment/{mid}.txt', 'w') as f:
                     f.write(jieba_processing_text(comments))
 
-    def _crawl_comment(self):
-        pass
+    def _crawl_comments(self, movie_gid):
+        """Get all short comments"""
+        movie_id = self.id_helper.global_to_local(movie_gid)
+        res = []
+        for page_index in range(1, 11):
+            api = f'{HOT_SHORT_COMMENTS_API}?movieId={movie_id}&pageIndex={page_index}'
+            comments = get(api)['data']['cts']
+            res.extend([co['ce'].strip() for co in comments])
+
+        return res
 
 
 class Crawler:
@@ -288,23 +291,6 @@ class Crawler:
             'movieId': movie_id
         }
         return get(detail_url, params)
-
-
-class CommentCrawler:
-
-    def __init__(self):
-        self.id_helper = IDHelper()
-
-    def all_comments(self, movie_gid):
-        """Get all short comments"""
-        movie_id = self.id_helper.global_to_local(movie_gid)
-        res = []
-        for page_index in range(1, 11):
-            api = f'{HOT_SHORT_COMMENTS_API}?movieId={movie_id}&pageIndex={page_index}'
-            comments = get(api)['data']['cts']
-            res.extend([co['ce'].strip() for co in comments])
-
-        return res
 
 
 class Singleton(type):
