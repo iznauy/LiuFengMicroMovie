@@ -1,6 +1,6 @@
 from flask import Flask
 import flaskr.dao as dao
-from flask import request, jsonify
+from flask import request, jsonify, send_file
 from json import JSONEncoder
 import dataclasses
 
@@ -40,6 +40,12 @@ def movie_comments():
 def movie_cinemas():
     movie_gid = int(request.args.get('id'))
     return jsonify([dataclasses.asdict(o) for o in dao.list_cinema(movie_gid)])
+
+
+@app.route('/wordcloud', methods=['GET'])
+def word_cloud():
+    movie_gid = int(request.args.get('id'))
+    return send_file(dao.word_cloud(movie_gid), mimetype='image/jpg')
 
 
 if __name__ == '__main__':

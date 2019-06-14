@@ -1,7 +1,9 @@
-from flaskr.crawler import Crawler
+from flaskr.crawler import Crawler, WordCloudProcessor
 import datetime
 
 _crawler = Crawler()
+
+_wd = WordCloudProcessor()
 
 
 def load_film_intros():
@@ -24,3 +26,7 @@ def list_cinema(movie_gid):
 
 def list_comments(movie_gid):
     return _crawler.movie_comment(movie_gid)
+
+
+def word_cloud(movie_gid):
+    return _wd.get_image(movie_gid)

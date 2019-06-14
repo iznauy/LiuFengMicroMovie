@@ -1,9 +1,24 @@
 import datetime as da
-import asyncio
+import os
+
+import jieba
 import requests
+from matplotlib import pyplot as plt
+from wordcloud import WordCloud
 
 from flaskr.config import LOCATION_ID
 from flaskr.data_model import FilmIntro, Film, Comment, CinemaInfo
+
+ON_SHOWING_MOVIE_API = 'https://api-m.mtime.cn/Showtime/LocationMovies.api'
+COMING_MOVIE_API = 'https://api-m.mtime.cn/Movie/MovieComingNew.api'
+HOT_LONG_COMMENTS_API = 'https://ticket-api-m.mtime.cn/Movie/HotLongComments.api'
+HOT_SHORT_COMMENTS_API = 'https://api-m.mtime.cn/Showtime/HotMovieComments.api'
+CINEMA_INFO_API = 'https://ticket-api-m.mtime.cn/Showtime/LocationMovieShowtimes.api'
+SHOW_TIMES_API = 'https://ticket-api-m.mtime.cn/Showtime/LocationMovieShowtimeDates.api'
+
+RESOURCE_DIR = f'{os.path.dirname(__file__)}/static'
+DEFAULT_COMMENT_RECORD_DIR = f'{RESOURCE_DIR}/comment'
+DEFAULT_OUTPUT_DIR = f'{RESOURCE_DIR}/wordcloud'
 
 
 def get(url: str, params=None):
@@ -12,6 +27,89 @@ def get(url: str, params=None):
         return req.json()
     else:
         raise ValueError(f'request {url} failed')
+
+
+def jieba_processing_text(text: str):
+    with open(f'{RESOURCE_DIR}/stopwords_cn_en.txt', 'r', encoding='utf-8') as f:
+        stop_words = set(f.read().splitlines())
+
+    seg_words = jieba.cut(text, cut_all=False)
+    res = []
+    for word in seg_words:
+        if word.strip() not in stop_words and len(word.strip()) > 0:
+            res.append(word)
+
+    return ' '.join(res)
+
+
+class WordCloudProcessor:
+
+    def __init__(self, comments_dir=None, output_dir=None):
+        self.id_helper = IDHelper()
+        self.comments_dir = comments_dir if comments_dir is not None else DEFAULT_COMMENT_RECORD_DIR
+        self.output_dir = output_dir if output_dir is not None else DEFAULT_OUTPUT_DIR
+        self.wc = WordCloud(font_path=f'{RESOURCE_DIR}/font/SourceHanSerifK-Light.otf', background_color='white',
+                            max_words=2000, max_font_size=100, random_state=42, width=1000, height=860, margin=2)
+        # Initialize comments file if no comment records are provided
+        self._initialize()
+
+    def get_image(self, movie_gid):
+        # try to find it in existed images
+        mid = self.id_helper.global_to_local(movie_gid)
+        for root, dirs, files in os.walk(self.output_dir):
+            for file in files:
+                if file.endswith('.jpg') and int(file[:-4]) == mid:
+                    return os.path.join(root, file)
+
+        # get comment content from file
+        comment_words = ''
+        for root, dirs, files in os.walk(self.comments_dir):
+            for comment_word_file in files:
+                if comment_word_file.endswith('.txt') and mid == int(comment_word_file[:-4]):
+                    with open(os.path.join(root, comment_word_file), 'r') as f:
+                        comment_words = f.read()
+                    break
+
+        # generate word cloud
+        if comment_words:
+            word_cloud = self.wc.generate(comment_words)
+
+            plt.figure()
+            plt.imshow(word_cloud, interpolation='bilinear')
+            plt.axis('off')
+            plt.show()
+
+            img_name = f'{RESOURCE_DIR}/wordcloud/{mid}.jpg'
+            self.wc.to_file(img_name)
+            return img_name
+
+        raise ValueError(f'There are no comments related to movie {mid}')
+
+    def _initialize(self):
+        # get existed processed comment files
+        existed_comments = set()
+        for root, dirs, files in os.walk(self.comments_dir):
+            for file in files:
+                if file.endswith('.txt'):
+                    existed_comments.add(int(file[:-4]))
+
+        for gid, mid in self.id_helper.id_dict.items():
+            if mid not in existed_comments:
+                # Crawl all available comments of this movie and then write to a file named by its mtime movie id
+                comments = ' '.join(self._crawl_comments(gid))
+                with open(f'{RESOURCE_DIR}/comment/{mid}.txt', 'w') as f:
+                    f.write(jieba_processing_text(comments))
+
+    def _crawl_comments(self, movie_gid):
+        """Get all short comments"""
+        movie_id = self.id_helper.global_to_local(movie_gid)
+        res = []
+        for page_index in range(1, 11):
+            api = f'{HOT_SHORT_COMMENTS_API}?movieId={movie_id}&pageIndex={page_index}'
+            comments = get(api)['data']['cts']
+            res.extend([co['ce'].strip() for co in comments])
+
+        return res
 
 
 class Crawler:
@@ -27,7 +125,7 @@ class Crawler:
         if self._hot_movies:
             return self._hot_movies
 
-        api_url = f'https://api-m.mtime.cn/Showtime/LocationMovies.api?locationId={self.location_id}'
+        api_url = f'{ON_SHOWING_MOVIE_API}?locationId={self.location_id}'
         res = get(api_url)
         movies = res['ms']
 
@@ -41,7 +139,7 @@ class Crawler:
         if self._coming_movies:
             return self._coming_movies
 
-        api = f'https://api-m.mtime.cn/Movie/MovieComingNew.api?locationId={self.location_id}'
+        api = f'{COMING_MOVIE_API}?locationId={self.location_id}'
         movies = get(api)['moviecomings']
 
         result = [self._create_coming_film_intro(m) for m in movies]
@@ -69,7 +167,7 @@ class Crawler:
         elif date not in show_times:
             raise ValueError('Invalid datetime for cinema_info')
 
-        api = 'https://ticket-api-m.mtime.cn/Showtime/LocationMovieShowtimes.api'
+        api = CINEMA_INFO_API
         params = {
             'locationId': self.location_id,
             'movieId': movie_id,
@@ -84,7 +182,7 @@ class Crawler:
         return result
 
     def _get_show_times(self, movie_id):
-        api = 'https://ticket-api-m.mtime.cn/Showtime/LocationMovieShowtimeDates.api'
+        api = SHOW_TIMES_API
         params = {
             'locationId': self.location_id,
             'movieId': movie_id
@@ -110,14 +208,14 @@ class Crawler:
 
     def _get_long_comments(self, global_id):
         movie_id = self.id_helper.global_to_local(global_id)
-        api = f'https://ticket-api-m.mtime.cn/Movie/HotLongComments.api?movieId={movie_id}&pageIndex=1'
+        api = f'{HOT_LONG_COMMENTS_API}?movieId={movie_id}&pageIndex=1'
         comments = get(api)['comments']
 
         return [self._create_long_comment(c, global_id) for c in comments]
 
     def _get_short_comments(self, global_id):
         movie_id = self.id_helper.global_to_local(global_id)
-        api = f'https://api-m.mtime.cn/Showtime/HotMovieComments.api?movieId={movie_id}&pageIndex=1'
+        api = f'{HOT_SHORT_COMMENTS_API}?movieId={movie_id}&pageIndex=1'
         comments = get(api)['data']['cts']
 
         return [self._create_short_comment(c, global_id) for c in comments]
@@ -214,15 +312,21 @@ class Singleton(type):
 class IDHelper(metaclass=Singleton):
 
     def __init__(self):
-        self.id_dict = {}
+        self.id_dict = {}  # Dictionary saving (global_id, mtime_id) pairs
         self.movie_id_dict = {}
         self.count = 0
+
+        self._initialize()
 
     def global_to_local(self, global_id):
         return self.id_dict[global_id]
 
     def get_global_id(self, movie_name, local_m_id):
         global_id = self._get_id_from_remote(movie_name)
+
+        # global_id = self.count
+        # self.count += 1
+
         if local_m_id not in self.id_dict:
             self.id_dict[global_id] = local_m_id
         return global_id
@@ -236,3 +340,16 @@ class IDHelper(metaclass=Singleton):
         # self.count += 1
         self.movie_id_dict[movie_name] = assigned_id
         return assigned_id
+
+    def _initialize(self):
+        """
+        Inquire for movie id from mtime and then to create a
+        dict between mtime movie id and global id in our system
+        """
+        api = f'{ON_SHOWING_MOVIE_API}?locationId={LOCATION_ID}&'
+        movies = get(api)['ms']
+
+        for m in movies:
+            name = m['tCn']
+            movie_id = m['movieId']
+            self.get_global_id(name, movie_id)

@@ -2,6 +2,7 @@ package cn.nju.edu.movie.service;
 
 import cn.nju.edu.movie.common.Comment;
 import cn.nju.edu.movie.common.Source;
+import cn.nju.edu.movie.dao.CommentSentimentDao;
 import cn.nju.edu.movie.dao.FilmDao;
 import cn.nju.edu.movie.entity.Film;
 import cn.nju.edu.movie.entity.FilmIntro;
@@ -9,6 +10,7 @@ import cn.nju.edu.movie.entity.Cinema;
 import cn.nju.edu.movie.vo.CinemaVO;
 import cn.nju.edu.movie.vo.FilmIntroVO;
 import cn.nju.edu.movie.vo.FilmVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -29,6 +31,8 @@ public class FilmServiceImpl implements FilmService {
 
     @Resource(name = "maoYan")
     private FilmDao maoyanDao;
+
+    private CommentSentimentDao sentimentDao;
 
     @Override
     public List<FilmIntroVO> getFilmList() {
@@ -137,6 +141,13 @@ public class FilmServiceImpl implements FilmService {
     public List<Comment> getCommentList(long filmId) {
         List<Comment> result = maoyanDao.getCommentsByFilmId(filmId);
         result.addAll(mTimeDao.getCommentsByFilmId(filmId));
+
+        // add film tag
+        List<String> contents = result.stream().map(Comment::getContent).collect(Collectors.toList());
+        List<String> tags = sentimentDao.getCommentTags(contents);
+        for (int i = 0; i < result.size(); i++)
+            result.get(i).setTag(tags.get(i));
+
         return result.stream().sorted(Comparator.comparing(Comment::getTime).reversed())
                 .collect(Collectors.toList());
     }
@@ -182,4 +193,8 @@ public class FilmServiceImpl implements FilmService {
         return new ArrayList<>(record.values());
     }
 
+    @Autowired
+    public void setSentimentDao(CommentSentimentDao sentimentDao) {
+        this.sentimentDao = sentimentDao;
+    }
 }
