@@ -4,9 +4,8 @@ import cn.nju.edu.movie.common.Comment;
 import cn.nju.edu.movie.common.Source;
 import cn.nju.edu.movie.dao.CommentSentimentDao;
 import cn.nju.edu.movie.dao.FilmDao;
-import cn.nju.edu.movie.entity.Film;
-import cn.nju.edu.movie.entity.FilmIntro;
-import cn.nju.edu.movie.entity.Cinema;
+import cn.nju.edu.movie.dao.RecommendDao;
+import cn.nju.edu.movie.entity.*;
 import cn.nju.edu.movie.vo.CinemaVO;
 import cn.nju.edu.movie.vo.FilmIntroVO;
 import cn.nju.edu.movie.vo.FilmVO;
@@ -31,6 +30,8 @@ public class FilmServiceImpl implements FilmService {
 
     @Resource(name = "maoYan")
     private FilmDao maoyanDao;
+
+    private RecommendDao recommendDao;
 
     private CommentSentimentDao sentimentDao;
 
@@ -126,6 +127,12 @@ public class FilmServiceImpl implements FilmService {
             map.put(Source.SHI_GUANG_WANG, new FilmVO.FilmDetailVO(filmFromMTime.getScore(), filmFromMTime.getScoreCount(), filmFromMTime.getTicketOffice()));
             filmVO.setFilmDetailVOMap(map);
         }
+        FilmBasicInfo basicInfo = new FilmBasicInfo();
+        basicInfo.setName(filmVO.getName());
+        basicInfo.setDirectors(filmVO.getDirectors());
+        basicInfo.setCategories(filmVO.getCategories());
+        List<RelatedFilm> relatedFilms = recommendDao.getRelatedFilms(basicInfo);
+        filmVO.setRelatedFilms(relatedFilms);
         return filmVO;
     }
 
@@ -196,5 +203,10 @@ public class FilmServiceImpl implements FilmService {
     @Autowired
     public void setSentimentDao(CommentSentimentDao sentimentDao) {
         this.sentimentDao = sentimentDao;
+    }
+
+    @Autowired
+    public void setRecommendDao(RecommendDao recommendDao) {
+        this.recommendDao = recommendDao;
     }
 }

@@ -2,6 +2,7 @@ package cn.nju.edu.movie.vo;
 
 import cn.nju.edu.movie.common.Comment;
 import cn.nju.edu.movie.common.Source;
+import cn.nju.edu.movie.entity.RelatedFilm;
 import lombok.Data;
 
 import java.util.List;
@@ -64,5 +65,7 @@ public class FilmVO {
             return ticketOffice;
         }
     }
+
+    private List<RelatedFilm> relatedFilms;
 
 }
