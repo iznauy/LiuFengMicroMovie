@@ -19,7 +19,7 @@ def hello_world():
     return 'Hello World!'
 
 
-@app.route('/recommend', methods=['GET'])
+@app.route('/recommend', methods=['POST'])
 def recommend():
     json_data = json_loads(request.data)
     movie = Movie(json_data)
@@ -28,3 +28,5 @@ def recommend():
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=7777)
+
+
