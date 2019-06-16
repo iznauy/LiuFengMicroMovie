@@ -11,6 +11,7 @@
               <p slot="content">{{item.content}}</p>
               <template slot="actions">
                 <span>来自{{translate(item.source)}}</span>
+                <span style="font-weight: bold; color: #2c3e50">{{item.tag}}</span>
                 <span>{{item.score}}分</span>
               </template>
               <a-tooltip slot="datetime" :title="item.time">

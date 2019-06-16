@@ -2,6 +2,14 @@ import json
 from movie import Movie
 
 
+record_list = []
+json_file = open('data.json', 'r', encoding='utf-8')
+for line in json_file:
+    data = json.loads(line)
+    one_record = Movie(data)
+    record_list.append(one_record)
+
+
 def map_method(item):
     record = item[0].record
     data = {}
@@ -13,11 +21,7 @@ def map_method(item):
 
 def recommend_three_movies(movie):
     three_recommended = []
-    json_file = open('data.json', 'r', encoding='utf-8')
-
-    for line in json_file:
-        data = json.loads(line)
-        record = Movie(data)
+    for record in record_list:
         rank = movie.get_recommend_rank(record)
         three_recommended.append((record, rank))
         three_recommended = sorted(three_recommended, key=lambda x: x[1], reverse=True)[:3]
