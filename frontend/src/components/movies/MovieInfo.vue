@@ -24,8 +24,29 @@
       </div>
     </div>
     <div class="movie-info">
-      <Cinemas v-if="showCinemas" :movieId="movieId"></Cinemas>
-      <Comments v-else :movieId="movieId" :description="movieInfo.description"></Comments>
+      <a-layout>
+        <a-layout-content>
+          <Cinemas v-if="showCinemas" :movieId="movieId"></Cinemas>
+          <Comments v-else :movieId="movieId" :description="movieInfo.description"></Comments>
+        </a-layout-content>
+        <a-layout-sider>
+          <div v-if="movieInfo.filmDetailVOMap.SHI_GUANG_WANG !== undefined" style="margin-bottom: 40px;">
+            <div style="font-size: 20px; margin: 5px; font-weight: bold;">电影词云</div>
+            <img :src="'http://localhost:5000/wordcloud?id='+movieId" alt="No pic" style="width: 400px; height: 400px; display: block">
+          </div>
+          <div>
+            <div style="font-size: 20px; margin-top: 5px; font-weight: bold;">相似电影推荐</div>
+            <div v-for="(movieReco, key) in movieInfo.relatedFilms" :key="key" class="reco">
+              <div>
+                <a target="_blank" :href="movieReco.url">
+                  <img :src="getUrl(movieReco.pic)" alt="No pic" style="width: 250px; height: 360px; display: block">
+                </a>
+              </div>
+              <div style="font-size: 18px; margin-top: 5px;">{{movieReco.name}}</div>
+            </div>
+          </div>
+        </a-layout-sider>
+      </a-layout>
     </div>
   </div>
 </template>
@@ -65,6 +86,12 @@
       },
       translate(key) {
         return Language.translate(key);
+      },
+      getUrl(_url) {
+        if (_url !== undefined) {
+          let _u = _url.substring(8);
+          return 'https://images.weserv.nl/?url=' + _u;
+        }
       }
     }
   };
@@ -117,7 +144,19 @@
     align-items: flex-end;
   }
   .movie-info {
-    padding: 60px 360px;
+    padding: 60px 300px 60px 250px;
     background-color: white;
+  }
+  .ant-layout-content {
+    padding: 20px!important;
+    background-color: white!important;
+  }
+  .ant-layout-sider {
+    padding: 20px!important;
+    background-color: white!important;
+  }
+  .reco {
+    width: 300px;
+    padding: 10px;
   }
 </style>

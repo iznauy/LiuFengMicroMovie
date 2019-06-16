@@ -17,20 +17,17 @@
       <file leaf-file-name="app.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="513">
-              <caret line="27" selection-start-line="27" selection-end-line="27" />
-              <folding>
-                <element signature="e#0#23#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="95">
+              <caret line="5" column="16" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="data_helper.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="data_helper.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data_helper.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="513">
-              <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
+            <state relative-caret-position="551">
+              <caret line="29" selection-start-line="29" selection-end-line="29" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -40,14 +37,18 @@
       </file>
       <file leaf-file-name="data.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data.json">
-          <provider selected="true" editor-type-id="text-editor" />
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret selection-end-line="1" />
+            </state>
+          </provider>
         </entry>
       </file>
-      <file leaf-file-name="movie.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="movie.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/movie.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="627">
-              <caret line="33" selection-start-line="33" selection-end-line="34" />
+            <state relative-caret-position="1083">
+              <caret line="57" selection-start-line="57" selection-end-line="58" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
@@ -60,9 +61,9 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/movie.py" />
         <option value="$PROJECT_DIR$/app.py" />
         <option value="$PROJECT_DIR$/data_helper.py" />
+        <option value="$PROJECT_DIR$/movie.py" />
       </list>
     </option>
   </component>
@@ -185,7 +186,7 @@
       <window_info anchor="bottom" id="Python Console" order="7" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32914045" />
       <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.257371" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2610565" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="SciView" order="3" />
@@ -210,78 +211,58 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/app.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="21" column="39" selection-start-line="21" selection-start-column="39" selection-end-line="21" selection-end-column="39" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="95">
+          <caret line="5" column="16" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/data_helper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
+        <state relative-caret-position="532">
+          <caret line="29" lean-forward="true" selection-start-line="29" selection-end-line="29" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/movie.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="589">
-          <caret line="33" column="21" selection-start-line="33" selection-start-column="21" selection-end-line="33" selection-end-column="21" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data_helper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/movie.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="589">
-          <caret line="33" column="21" selection-start-line="33" selection-start-column="21" selection-end-line="33" selection-end-column="21" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="27" selection-start-line="27" selection-end-line="27" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/data.json">
-      <provider selected="true" editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="1" />
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/movie.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="627">
-          <caret line="33" selection-start-line="33" selection-end-line="34" />
+        <state relative-caret-position="1045">
+          <caret line="57" selection-start-line="57" selection-end-line="58" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="21" column="39" selection-start-line="21" selection-start-column="39" selection-end-line="21" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data_helper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/movie.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="589">
+          <caret line="33" column="21" selection-start-line="33" selection-start-column="21" selection-end-line="33" selection-end-column="21" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
           </folding>
@@ -290,10 +271,53 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/data_helper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
+        <state>
           <folding>
             <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/movie.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="589">
+          <caret line="33" column="21" selection-start-line="33" selection-start-column="21" selection-end-line="33" selection-end-column="21" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="95">
+          <caret line="5" column="16" selection-start-line="5" selection-start-column="16" selection-end-line="5" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data_helper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="551">
+          <caret line="29" selection-start-line="29" selection-end-line="29" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/movie.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1083">
+          <caret line="57" selection-start-line="57" selection-end-line="58" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
           </folding>
         </state>
       </provider>

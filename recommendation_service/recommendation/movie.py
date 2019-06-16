@@ -14,7 +14,7 @@ class Movie:
         m = 25000
         C = 7.0
         weighted_rank = v / (v + m) * R + m / (v + m) * C
-        return weighted_rank * self.get_similarity(movie)
+        return weighted_rank * self.get_cos_similarity(movie)
 
     def get_similarity(self, movie):
         return self.get_name_similarity(movie) + 4 * self.get_cos_similarity(movie)
